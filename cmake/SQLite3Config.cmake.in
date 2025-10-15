@@ -6,7 +6,7 @@ include(CMakeFindDependencyMacro)
 
 
 if(NOT TARGET SQLite3::SQLite3)
-    include("${QtNodes_CMAKE_DIR}/SQLite3Targets.cmake")
+    include("${SQLite3_CMAKE_DIR}/SQLite3Targets.cmake")
 endif()
 
 
