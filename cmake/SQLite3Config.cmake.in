@@ -1,0 +1,13 @@
+get_filename_component(SQLite3_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+
+include(CMakeFindDependencyMacro)
+
+# NOTE Had to use find_package because find_dependency does not support COMPONENTS or MODULE until 3.8.0
+
+
+if(NOT TARGET SQLite3::SQLite3)
+    include("${QtNodes_CMAKE_DIR}/SQLite3Targets.cmake")
+endif()
+
+
+set(SQLite3_LIBRARIES SQLite3::SQLite3)
