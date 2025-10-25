@@ -5,9 +5,9 @@ include(CMakeFindDependencyMacro)
 # NOTE Had to use find_package because find_dependency does not support COMPONENTS or MODULE until 3.8.0
 
 
-if(NOT TARGET SQLite3::SQLite3)
-    include("${SQLite3_CMAKE_DIR}/SQLite3Targets.cmake")
+if(NOT TARGET MYSQLite3::MYSQLite3)
+    include("${SQLite3_CMAKE_DIR}/MySQLite3Targets.cmake")
 endif()
 
 
-set(SQLite3_LIBRARIES SQLite3::SQLite3)
+set(SQLite3_LIBRARIES MYSQLite3::MYSQLite3)

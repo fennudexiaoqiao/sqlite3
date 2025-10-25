@@ -12,7 +12,7 @@ project(sqlite3 VERSION 0.1 LANGUAGES CXX C)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_library(SQLite3 STATIC
+add_library(MySQLite3 STATIC
  sqlite3.c
  sqlite3.h
 )
@@ -23,9 +23,9 @@ if (WIN32)
     endif()
 endif()
 
-add_library(SQLite::SQLite3 ALIAS SQLite3)
+add_library(MySQLite3::MySQLite3 ALIAS MySQLite3)
 
-target_include_directories(SQLite3
+target_include_directories(MySQLite3
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
     $<INSTALL_INTERFACE:include/>)
@@ -33,43 +33,43 @@ target_include_directories(SQLite3
 if (SQLITE_ENABLE_COLUMN_METADATA)
     # Enable the use of SQLite column metadata method
     # Require that the sqlite3 library is also compiled with this flag:
-    target_compile_definitions(SQLite3 PUBLIC SQLITE_ENABLE_COLUMN_METADATA)
+    target_compile_definitions(MySQLite3 PUBLIC SQLITE_ENABLE_COLUMN_METADATA)
 endif (SQLITE_ENABLE_COLUMN_METADATA)
 
 if (SQLITE_ENABLE_RTREE)
     # Enable RTree extension when building sqlite3
     # See more here: https://sqlite.org/rtree.html
-    target_compile_definitions(SQLite3 PUBLIC SQLITE_ENABLE_RTREE)
+    target_compile_definitions(MySQLite3 PUBLIC SQLITE_ENABLE_RTREE)
     message(STATUS "Compile sqlite3 with SQLITE_ENABLE_RTREE")
 endif (SQLITE_ENABLE_RTREE)
 
 if (SQLITE_ENABLE_DBSTAT_VTAB)
     # Enable DBSTAT extension when building sqlite3
     # See more here: https://www.sqlite.org/dbstat.html
-    target_compile_definitions(SQLite3 PUBLIC SQLITE_ENABLE_DBSTAT_VTAB)
+    target_compile_definitions(MySQLite3 PUBLIC SQLITE_ENABLE_DBSTAT_VTAB)
     message(STATUS "Compile sqlite3 with SQLITE_ENABLE_DBSTAT_VTAB")
 endif (SQLITE_ENABLE_DBSTAT_VTAB)
 
 if (SQLITE_OMIT_LOAD_EXTENSION)
-    target_compile_definitions(SQLite3 PUBLIC SQLITE_OMIT_LOAD_EXTENSION)
+    target_compile_definitions(MySQLite3 PUBLIC SQLITE_OMIT_LOAD_EXTENSION)
     message(STATUS "Compile sqlite3 with SQLITE_OMIT_LOAD_EXTENSION")
 endif (SQLITE_OMIT_LOAD_EXTENSION)
 
 if (UNIX AND (CMAKE_COMPILER_IS_GNUCXX OR ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang"))
-    set_target_properties(SQLite3 PROPERTIES COMPILE_FLAGS "-fPIC")
+    set_target_properties(MySQLite3 PROPERTIES COMPILE_FLAGS "-fPIC")
 
     # Put each function in its own section to allow the linker garbage
     # collection to remove unused section and produced a smaller
     # statically-lined executables.
-    target_compile_options(SQLite3 PRIVATE "-ffunction-sections")
+    target_compile_options(MySQLite3 PRIVATE "-ffunction-sections")
 endif (UNIX AND (CMAKE_COMPILER_IS_GNUCXX OR ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang"))
 
 if (UNIX AND CMAKE_COMPILER_IS_GNUCXX)
     if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 7.0)
-        target_compile_options(SQLite3 PRIVATE "-Wimplicit-fallthrough=0")
+        target_compile_options(MySQLite3 PRIVATE "-Wimplicit-fallthrough=0")
     endif()
     if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 8.0)
-        target_compile_options(SQLite3 PRIVATE "-Wno-cast-function-type")
+        target_compile_options(MySQLite3 PRIVATE "-Wno-cast-function-type")
     endif()
 endif()
 
@@ -90,10 +90,10 @@ endif()
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
-set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/SQLite3)
+set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/MySQLite3)
 
-install(TARGETS SQLite3
-  EXPORT SQLite3Targets
+install(TARGETS MySQLite3
+  EXPORT MySQLite3Targets
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
@@ -103,20 +103,20 @@ install(TARGETS SQLite3
 # install(DIRECTORY include/
 #         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-install(EXPORT SQLite3Targets
-  FILE SQLite3Targets.cmake
-  # NAMESPACE SQLite3::
+install(EXPORT MySQLite3Targets
+  FILE MySQLite3Targets.cmake
+  NAMESPACE MySQLite3::
   DESTINATION ${INSTALL_CONFIGDIR}
 )
 
 
 configure_package_config_file(${CMAKE_CURRENT_LIST_DIR}/cmake/SQLite3Config.cmake.in
-  ${CMAKE_CURRENT_BINARY_DIR}/SQLite3Config.cmake
+  ${CMAKE_CURRENT_BINARY_DIR}/MySQLite3Config.cmake
   INSTALL_DESTINATION ${INSTALL_CONFIGDIR}
 )
 
 install(FILES
-  ${CMAKE_CURRENT_BINARY_DIR}/SQLite3Config.cmake
+  ${CMAKE_CURRENT_BINARY_DIR}/MySQLite3Config.cmake
   DESTINATION ${INSTALL_CONFIGDIR}
 )
 
